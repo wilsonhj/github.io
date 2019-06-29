@@ -1,1 +1,88 @@
-StarField 
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>JS Bin</title>
+    <script src="https://code.jquery.com/jquery-3.2.0.js"></script>
+    <script>
+        
+        $(document).ready(startApp);
+        let music = new Audio("CinematicTheme_piano_1.m4a")
+        
+        function startApp(){
+            createStars();
+            $(document).click(repopulate);
+            $(document).click(audio);
+        }
+
+        function audio(){            
+            if(music.paused){
+                music.play();
+                music.playing = false;
+            }
+            
+        }
+        function createStars(){
+            var numStars = Math.floor(Math.random() * 1000);
+            for (let i=0; i<numStars; i++){
+                let twinkle = 1 + Math.random() * 2;
+                let starDiv = $('<div>');
+                starDiv.addClass("star");
+                let random = Math.random() * 100;
+                let random2 = Math.random() * 100;
+
+                let r = Math.random() * 255;
+                let g = Math.random() * 255;
+                let b = Math.random() * 255;
+                
+                let h = numStars/4000;
+                let w = numStars/4000;
+
+                let starOptions = {
+                'left': `${random}%`,
+                'top': `${random2}%`,
+                'background-color': `rgb(${r},${g},${b})`,
+                'height': `${h}%`,
+                'width': `${w}%`
+                }
+                starDiv.css(starOptions);r
+                $('#starField').append(starDiv);
+                starDiv.css(`animation-duration`, `${twinkle}s`);
+            }  
+        }
+        function repopulate(){
+            $('.star').remove();
+            createStars();
+        }
+
+    </script>
+    
+    <style>
+        body{
+            margin: 0
+        }
+        #starField{
+            height: 100vh;
+            width: 100vw;
+            background-color: black;
+            position: static;
+        }
+        .star{
+            position: absolute;
+            animation-iteration-count: infinite;
+            animation-name: twinkle;
+            animation-duration: 1s;
+        }
+        @keyframes twinkle {
+            50% {
+                transform: scale(0.5);
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+    <body>
+    <div id="starField"> </div>
+    </body>
+</html>
